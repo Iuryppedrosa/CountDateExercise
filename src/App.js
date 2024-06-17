@@ -12,20 +12,19 @@ export default function App() {
 function Step() {
   const [valor, setValor] = useState(1);
 
-  function aumentarValor() {
-    setValor((previusValue) => previusValue + 1);
-  }
-
-  function diminuirValor() {
-    setValor((previusValue) => previusValue - 1);
-  }
-
   return (
     <>
       <div>
-        <button onClick={diminuirValor}>-</button>
-        <p style={{ display: "inline-block" }}>Step: {valor} </p>
-        <button onClick={aumentarValor}>+</button>
+        <input
+          style={{ display: "inline-block" }}
+          type="range"
+          min={1}
+          max={10}
+          value={valor}
+          onChange={(e) => setValor(Number(e.target.value))}
+        ></input>
+
+        <p style={{ display: "inline-block" }}>{valor} </p>
       </div>
       <div>
         <Counter valorDeIncremento={valor} />
@@ -36,6 +35,10 @@ function Step() {
 
 function Counter({ valorDeIncremento }) {
   const [valor, setValor] = useState(1);
+
+  function handleReset() {
+    setValor(0);
+  }
 
   function aumentarValor() {
     setValor(() => valorDeIncremento + valor);
@@ -49,9 +52,14 @@ function Counter({ valorDeIncremento }) {
     <div>
       <div>
         <button onClick={diminuirValor}>-</button>
-        <p style={{ display: "inline-block" }}>Count: {valor} </p>
+        <input
+          type="text"
+          value={valor}
+          onChange={(e) => setValor(Number(e.target.value))}
+        ></input>
         <button onClick={aumentarValor}>+</button>
       </div>
+      <button onClick={handleReset}>Reset</button>
       <p>
         <DateCounter valor={valor} />
       </p>
@@ -69,8 +77,8 @@ function DateCounter({ valor }) {
         {valor === 0
           ? "Today is "
           : valor > 0
-          ? `${valor} days from today is `
-          : `${valor} days ago was `}
+            ? `${valor} days from today is `
+            : `${valor} days ago was `}
       </span>
       <span>{date.toDateString()}</span>
     </p>
